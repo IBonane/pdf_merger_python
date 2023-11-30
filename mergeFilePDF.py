@@ -3,11 +3,18 @@ import tkinter as tk
 from tkinter import filedialog, simpledialog, messagebox
 from tkinter import ttk
 from ttkthemes import ThemedTk
+import os
 
 class PDFMergerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Fusionner des PDF")
+
+        # Définir l'icône de la fenêtre tkinter
+        # Vérifier si le fichier ICO existe avant de le définir comme icône
+        icon_file = 'logo.ico'
+        if os.path.exists(icon_file):
+            self.root.iconbitmap(icon_file)
 
         # Appliquer le thème
         self.style = ttk.Style()
@@ -145,7 +152,12 @@ class PDFMergerApp:
             with open(self.merged_pdf_path, "wb") as merged_file:
                 pdf_merger.write(merged_file)
 
-            print(f"Fusion PDF réussie. Fichier enregistré sous {self.merged_pdf_path}")
+            # Afficher le message de fusion réussie dans une boîte de dialogue popup
+            message = f"Fusion PDF réussie. Fichier enregistré sous {self.merged_pdf_path}"
+            messagebox.showinfo("Succès", message)
+
+            # Vider la liste des fichiers
+            self.clear_all_files()
         else:
             print("Opération annulée.")
 
